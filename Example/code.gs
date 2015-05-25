@@ -23,7 +23,7 @@ function AppfolderExample(){
   var fileData = Appfolder.getFileContent(newFileId); // [{"name":"bob","id":1},{"name":"Sally","id":2},{"name":"Steve","id":3}]
   fileData = JSON.parse(fileData);
   
-  // Add a value and rewite it to the same folder
+  // Add a value and rewite it to the same file
   fileData.push({id:3,name:"Topher"});
   newFile = Appfolder.writeFile("TestFile", fileData, newFileId); // last paramter added to update the file;
 
