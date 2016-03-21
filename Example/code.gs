@@ -1,3 +1,14 @@
+// Open the projects Developer console
+//      Enable Drive API
+//      Create a new set of OAuth2 credentials. Use:  
+//              Authorized JavaScript origins: https://script.google.com   
+//              Authorized Redirect URI :  https://script.google.com/macros/d/{Your Project Key}/usercallback 
+//      Save the client secret as gasClient_Secret and client id as gasClient_Id in your scripts properties
+//      Run function runToAuthThisScript to authorize the script
+//      Publish the script as a webapp. Launch the webapp and click the button to start the Oauth flow to give access
+//        to your appdata folder.
+//      Run the AppfolderExample function. to see the library in action. 
+
 function doGet(){
   return ClickToAuthGasWindow();
   
