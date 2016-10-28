@@ -102,20 +102,39 @@ function writeFile(fileName, fileData, fileId){
 
 /**
 * Return's all files associated with your application from the Appfolder
-*
+* @param {object} searchOptions fileName:string exact:boolean contains:boolean
 * @return {object} Returns a lists of file's meta-data
 */
-function getAllFiles(){
+function getAllFiles(searchOptions){
   testForToken_();  
   var url = "https://www.googleapis.com/drive/v2/files?q="+encodeURIComponent("'appfolder' in parents");
   var parameters = { method : 'GET',
                     headers : {'Authorization': 'Bearer '+ super_.settings.service()},                    
                     contentType:'application/json',                    
-                    muteHttpExceptions:true};
-  
+                    muteHttpExceptions:true};  
   var results = UrlFetchApp.fetch(url,parameters);
-  return JSON.parse(results.getContentText());
+  var files = JSON.parse(results.getContentText()).items;
   
+  if(hasOptions(searchOptions) && searchOptions.fileName !== undefined){   
+    
+    files = files.filter(function listFilesFilter(file){
+      var queryFile = searchOptions.fileName;
+      var thisFile = file.title;
+      
+      if(!searchOptions.exact){
+        queryFile = queryFile.toUpperCase();
+        thisFile = thisFile.toUpperCase();
+      }
+      if(searchOptions.contains){
+        if(thisFile.indexOf(queryFile) != -1){ return file;}
+      }else{
+        if(thisFile === queryFile){return file;}
+      }  
+    });
+  }
+  
+  
+  return files;  
   
 }
 
@@ -128,7 +147,7 @@ function getAllFiles(){
 function getFile(fileId){
   testForToken_();
   var url = "https://www.googleapis.com/drive/v2/files/"+fileId
-  var parameters = { method : 'get',
+  var parameters = { method : 'GET',
                     headers : {'Authorization': 'Bearer '+ super_.settings.service()},                    
                     contentType:'application/json',                     
                     muteHttpExceptions:true};

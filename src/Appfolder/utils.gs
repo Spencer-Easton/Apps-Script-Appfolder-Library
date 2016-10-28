@@ -33,3 +33,7 @@ function isObject_(obj) {
     var type = typeof obj;
     return type === 'function' || type === 'object' && !!obj;
   };
+  
+ function hasOptions(obj){   
+   return obj !== undefined && obj.constructor === Object && Object.keys(obj).length !== 0
+ }
